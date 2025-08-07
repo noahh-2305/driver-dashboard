@@ -1,0 +1,71 @@
+Using C++ or Python
+
+Python:
+Pros: 
+	- People department wide can use some Python; Within the GoDAP team, we known Python; Generally easier to deal with and troubleshoot, lots of cool libraries can be used
+	- PyQt is easy to setup with a little bit of practice/reading documentation, can be really creative with your widget layouts/lots of examples available online
+	- Networking is super easy to setup to get UDP packets AND we can possibly integrate ML/Data Analysis while the data comes in for better analysis if wanted (super easy to integrate scikit-learn or pandas)
+Cons: 
+	- For the type of GUI we need, an STM32 WILL NOT work, as it is too low level for what we need, basically shoeing us into using a Raspberry Pi
+
+C++:
+Pros:
+	- LVGL is available for more complex GUI, basically C++ equivalent of PyQt
+	- Can run on a bunch of different hardware, STM32, ESP32, Raspberry Pi, etc., and better performance overall, speed and reliability wise.
+	- The GUI can be top notch, given more verbose/complex syntax
+Cons:
+	- Steeper learning curve, not too much current C++ knowledge within PTM at the moment, meaning it would be on the intern to make everything as simple as possible…
+	- More complex networking code required to get UDP packets
+	- If we want to do any data analysis/ML on the data coming in directly, C++ will not allow us to do that, at least easily.
+	
+
+Hardware side of things
+
+STM32
+	- 32-bit, ARM Cortex CPU-based microcontroller, typically single-core or dual-core
+		○ Drawing point is having high performance with low power draw AND many of different configurations depending on the use case
+Pros:
+	- Super quick startup time, virtually plug and play
+	- Supports C++ well, UI updates happen quick 
+	- Can make a very robust and creative UI with LVGL
+	- UDP support with proper LwIP stack setup
+	- Can support parallel or serial display interfaces (we would need parallel)
+	- Cheap, super lower power consumption, and very compact
+	- Bare metal (no os) or RTOS, so virtually only has the scripts we need on there
+Cons:
+	- You can use low level Python but we basically cannot us PyQt or anything like it on there
+	- Kind of shoes us into using C++, which is a concern if this is a PTM-wide update
+
+ESP32
+	- 32-bit microcontroller, typically using a dual-core Xtensa LX6/7 or a single-core RISC-V
+		○ Main drawing point is having either bluetooth or wi-fi capabilties
+Pros:
+	- Quick startup time
+	- Supports C/C++ well
+	- Super cheap, small form factor, and low power consumption
+	- Runs off of C++ and can take in UDP packets over Wi-Fi
+	- Can support parallel or serial display interfaces (we would need parallel)
+Cons: 
+	- Can support Python but not at level we need
+	- UI updates would be slow, given the small amount of RAM and smaller CPU
+	- Generally one of the lesser options given the application
+
+Raspberry Pi
+	- Single board computer, normally with a quad-core ARM processor (A72 or A76)
+Pros:
+	- Can utilize Python or C++, meaning the possibilities are wide open
+	- Can use HDMI or Serial LCD
+Cons:
+	- Bulkier, uses more power, and costs more
+	- Startup time can be like 30 seconds, big factor depending on how much people care about plug and play
+	- When we 3D print an enclosure, we'd need to thing about heat dissipation, which can be a real concern
+
+Small lower-end x86 mini PC
+Pros:
+	- Still very compact, can have fan or passively cooled
+	- A full setup mini box can be had for around ~$120
+	- Allows for upgrading in the future/fleshing out code without maxxing out hardware
+	- Can load up faster than Raspberry pi
+Cons:
+	- Compared to Raspberry Pi, almost triple the power draw, heat can be an issue at high TDP
+    - Overkill if project just stays as a few small scripts that update a small dashboard, can be done for cheaper and simpler on raspberry pi
